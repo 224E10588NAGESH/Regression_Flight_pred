@@ -1,10 +1,16 @@
 import streamlit as st
 import pickle
 import pandas as pd
+import joblib
 
 # Load the trained model
-with open("flight_fare_model.pkl", "rb") as f:
-    model = pickle.load(f)
+model = joblib.load("flight_fare_model.pkl")
+
+
+
+# Load the trained model
+#with open("flight_fare_model.pkl", "rb") as f:
+ #   model = pickle.load(f)
 
 # Page config
 st.set_page_config(page_title="Flight Fare Predictor", layout="wide")
