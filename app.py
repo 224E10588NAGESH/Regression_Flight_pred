@@ -2,12 +2,15 @@ import streamlit as st
 import pickle
 import pandas as pd
 
-
-
+# Initialize session state
+if 'prediction' not in st.session_state:
+    st.session_state.prediction = None
+if 'cleared' not in st.session_state:
+    st.session_state.cleared = False
 
 #Load the trained model
 with open("flight_fare_model.pkl", "rb") as f:
-   model = pickle.load(f)
+    model = pickle.load(f)
 
 # Page config
 st.set_page_config(page_title="Flight Fare Predictor", layout="wide")
@@ -137,6 +140,14 @@ with col_left:
         st.markdown(f"<h4 class='fade-in' style='color:#1f4e79;'>💰 Estimated Flight Fare: ₹ {prediction[0]:.2f}</h4>", unsafe_allow_html=True)
 
     if clear_clicked:
+        st.session_state.prediction = None
+        st.session_state.cleared = True
+
+    # Display prediction if it exists
+    if st.session_state.prediction is not None:
+        st.markdown(f"<h4 class='fade-in' style='color:#1f4e79;'>💰 Estimated Flight Fare: ₹ {st.session_state.prediction:.2f}</h4>", unsafe_allow_html=True)
+    
+    if st.session_state.cleared:
         st.markdown("<h4 class='fade-in' style='color:#FFD700;'>Inputs cleared! Please re‑enter values.</h4>", unsafe_allow_html=True)
 
 # Footer
